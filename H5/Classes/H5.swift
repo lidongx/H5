@@ -29,7 +29,7 @@ public class H5 : NSObject{
     
     
     public var loadDataCallback:((_ finished:Bool)->Void)? = nil
-    public var preloadedCallback:((_ finished:Bool)->Void)? = nil
+    public var preloadedCallback:((_ sourceType:SoureType,_ finished:Bool)->Void)? = nil
     public var restoreCallback:(()->Void)? = nil
     public var buyCallback:((_ iapid:String,_ index:Int,_ page:H5.Page)->Void)? = nil
     public var selectedItemCallback:((_ iapid:String,_ index:Int,_ page:H5.Page)->Void)? = nil
@@ -63,6 +63,20 @@ public class H5 : NSObject{
         return pages.count > 0
     }
     
+    public var isCachedAll:Bool{
+        if pages.count == 0{
+            return false
+        }
+        var b = true
+        for page in pages{
+            if page.pageHander.isExistCache() == false{
+                b = false
+                break
+            }
+        }
+        return b
+    }
+    
     public var isPreloaded:Bool{
         if pages.count == 0{
             return false
@@ -88,7 +102,7 @@ public class H5 : NSObject{
 extension H5 : PageDelegate{
     public func loaded(_ index:Int,_ page:H5.Page){
         if isPreloaded{
-            preloadedCallback?(true)
+            preloadedCallback?(page.souceType,true)
         }
     }
     public func restore(){
@@ -109,6 +123,6 @@ extension H5 : PageDelegate{
         show(index)
     }
     public func loadfail(_ index:Int,_ page:H5.Page){
-        preloadedCallback?(false)
+        preloadedCallback?(page.souceType,false)
     }
 }

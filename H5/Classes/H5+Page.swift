@@ -21,6 +21,8 @@ extension H5{
         
         weak var pageDelegate:PageDelegate? = nil
         
+        var souceType:SoureType = .server
+        
         var index:Int = 0
         public init(_ index:Int,_ item:Item){
             self.index = index
@@ -29,6 +31,7 @@ extension H5{
           
         }
         public func request(_ sourceType:SoureType,_ callback:(()->Void)? = nil){
+            self.souceType = sourceType
             self.callback = callback
             pageHander.delegate = self
             pageHander.request(sourceType)

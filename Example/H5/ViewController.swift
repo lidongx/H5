@@ -26,9 +26,16 @@ class ViewController: UIViewController {
             }
         }
         
-        H5.shared.preloadedCallback = { b in
+        H5.shared.preloadedCallback = {sourceType, b in
             if b{
                 H5.shared.show()
+            }else{
+                if sourceType == .server{
+                   // 从服务器上加载失败 从缓存中读取 预加载失败 从缓存中加载
+                    if H5.shared.isCachedAll{
+                        H5.shared.preloadAll(.local)
+                    }
+                }
             }
           
         }
