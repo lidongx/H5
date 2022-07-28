@@ -1,0 +1,8 @@
+use_frameworks!
+
+platform :ios, '10.0'
+
+target 'H5_Example' do
+  pod 'H5', :path => '../'
+
+end
